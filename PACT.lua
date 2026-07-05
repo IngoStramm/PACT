@@ -44,6 +44,7 @@ local LOCALES = {
         PULL_UNAVAILABLE = "Countdown is not available in this game version.",
         ROLE_UNAVAILABLE = "Role check is not available in this game version.",
         BREAK_UNAVAILABLE = "Break countdown is not available in this game version.",
+        ROLE_PENDING = "Wait for the role check to finish before starting a pull or break.",
         BREAK_PREVIEW = "Break sends: %s",
     },
     ptBR = {
@@ -87,6 +88,7 @@ local LOCALES = {
         PULL_UNAVAILABLE = "Countdown nao esta disponivel nesta versao do jogo.",
         ROLE_UNAVAILABLE = "Role check nao esta disponivel nesta versao do jogo.",
         BREAK_UNAVAILABLE = "Countdown de break nao esta disponivel nesta versao do jogo.",
+        ROLE_PENDING = "Aguarde o Role Check terminar antes de iniciar pull ou break.",
         BREAK_PREVIEW = "Break envia: %s",
     },
 }
@@ -101,7 +103,7 @@ local DEFAULT_DB = {
     showCancelButton = false,
     pullSeconds = 10,
     breakMinutes = 5,
-    breakCommand = "/pull {seconds} break",
+    breakCommand = "/break {minutes}",
     position = {
         point = "CENTER",
         relativePoint = "CENTER",
@@ -123,6 +125,10 @@ local standaloneWindow
 local settingsCategory
 local pendingLayoutUpdate
 local pendingRaidManagerUpdate
+local breakCancelPending
+local breakCancelToken = 0
+local roleCheckPending
+local roleCheckToken = 0
 
 local buttons = {}
 local buttonOrder = { "ready", "pull", "role", "break", "cancel" }
@@ -184,10 +190,18 @@ local function EnsureDb()
 
     db = PACTDB
     db.pullSeconds = ClampInt(db.pullSeconds, 1, 3600, DEFAULT_DB.pullSeconds)
-    db.breakMinutes = ClampInt(db.breakMinutes, 1, 1440, DEFAULT_DB.breakMinutes)
+    db.breakMinutes = ClampInt(db.breakMinutes, 1, 60, DEFAULT_DB.breakMinutes)
 
     if type(db.breakCommand) ~= "string" or db.breakCommand == "" then
         db.breakCommand = DEFAULT_DB.breakCommand
+    else
+        local savedBreakCommand = db.breakCommand:gsub("[\r\n]", " "):match("^%s*(.-)%s*$") or ""
+        if savedBreakCommand:sub(1, 1) ~= "/" then
+            savedBreakCommand = "/" .. savedBreakCommand
+        end
+        if savedBreakCommand == "/pull {seconds} break" then
+            db.breakCommand = DEFAULT_DB.breakCommand
+        end
     end
 
     if type(db.position) ~= "table" then
@@ -309,6 +323,47 @@ local function ExpandBreakCommand()
     return text
 end
 
+local function RunSlashCommand(command)
+    local slash, args = tostring(command or ""):match("^/([^%s]+)%s*(.*)$")
+    if not slash then
+        return false
+    end
+
+    local handler = SlashCmdList and (SlashCmdList[slash] or SlashCmdList[slash:lower()] or SlashCmdList[slash:upper()])
+    if not handler then
+        return false
+    end
+
+    handler(args or "")
+    return true
+end
+
+local function IsRoleCheckPending()
+    if roleCheckPending then
+        return true
+    end
+    return RolePollPopup and RolePollPopup:IsShown()
+end
+
+local function ClearRoleCheckPending()
+    roleCheckPending = nil
+    roleCheckToken = roleCheckToken + 1
+end
+
+local function MarkRoleCheckPending()
+    roleCheckPending = true
+    roleCheckToken = roleCheckToken + 1
+
+    local token = roleCheckToken
+    if C_Timer and C_Timer.After then
+        C_Timer.After(45, function()
+            if roleCheckToken == token then
+                roleCheckPending = nil
+            end
+        end)
+    end
+end
+
 local function ApplyBackdrop(frame, bgR, bgG, bgB, bgA, borderR, borderG, borderB, borderA)
     if not frame.SetBackdrop then
         return
@@ -354,6 +409,8 @@ local function ShowButtonTooltip(button, key)
 
     if IsGrouped() and not HasPermission() then
         GameTooltip:AddLine(L.NO_PERMISSION, 1, 0.35, 0.35, true)
+    elseif (key == "pull" or key == "break") and roleCheckPending then
+        GameTooltip:AddLine(L.ROLE_PENDING, 1, 0.35, 0.35, true)
     end
 
     GameTooltip:Show()
@@ -462,6 +519,7 @@ local function RunRoleCheck()
 
     if fn then
         fn()
+        MarkRoleCheckPending()
     else
         Print(L.ROLE_UNAVAILABLE)
     end
@@ -473,14 +531,19 @@ local function RunPullCountdown()
         return
     end
 
+    if IsRoleCheckPending() then
+        Print(L.ROLE_PENDING)
+        return
+    end
+
     local seconds = db.pullSeconds
 
-    if C_PartyInfo and C_PartyInfo.DoCountdown then
+    if RunSlashCommand("/pull " .. tostring(seconds)) then
+        return
+    elseif RunSlashCommand("/countdown " .. tostring(seconds)) then
+        return
+    elseif C_PartyInfo and C_PartyInfo.DoCountdown then
         C_PartyInfo.DoCountdown(seconds)
-    elseif SlashCmdList and SlashCmdList.COUNTDOWN then
-        SlashCmdList.COUNTDOWN(tostring(seconds))
-    elseif SlashCmdList and SlashCmdList.PULL then
-        SlashCmdList.PULL(tostring(seconds))
     elseif RunMacroText then
         RunMacroText("/pull " .. tostring(seconds))
     else
@@ -494,15 +557,36 @@ local function RunBreakCountdown()
         return
     end
 
-    local command = ExpandBreakCommand()
-    local pullArgs = command:match("^/pull%s+(.+)$")
+    if IsRoleCheckPending() then
+        Print(L.ROLE_PENDING)
+        return
+    end
 
-    if pullArgs and SlashCmdList and SlashCmdList.PULL then
-        SlashCmdList.PULL(pullArgs)
+    local command = ExpandBreakCommand()
+    if RunSlashCommand(command) then
+        breakCancelPending = true
+        breakCancelToken = breakCancelToken + 1
+        local token = breakCancelToken
+        if C_Timer and C_Timer.After then
+            C_Timer.After((db.breakMinutes * 60) + 1, function()
+                if breakCancelToken == token then
+                    breakCancelPending = nil
+                end
+            end)
+        end
+        return
     elseif RunMacroText then
         RunMacroText(command)
-    elseif C_PartyInfo and C_PartyInfo.DoCountdown then
-        C_PartyInfo.DoCountdown(db.breakMinutes * 60)
+        breakCancelPending = true
+        breakCancelToken = breakCancelToken + 1
+        local token = breakCancelToken
+        if C_Timer and C_Timer.After then
+            C_Timer.After((db.breakMinutes * 60) + 1, function()
+                if breakCancelToken == token then
+                    breakCancelPending = nil
+                end
+            end)
+        end
     else
         Print(L.BREAK_UNAVAILABLE)
     end
@@ -514,13 +598,23 @@ local function RunCancelCountdown()
         return
     end
 
-    if C_PartyInfo and C_PartyInfo.DoCountdown then
+    local stoppedPull = RunSlashCommand("/pull 0") or RunSlashCommand("/countdown 0")
+    local stoppedBreak
+
+    if breakCancelPending then
+        stoppedBreak = RunSlashCommand("/break 0")
+        if stoppedBreak then
+            breakCancelPending = nil
+            breakCancelToken = breakCancelToken + 1
+        end
+    end
+
+    if stoppedPull or stoppedBreak then
+        return
+    elseif C_PartyInfo and C_PartyInfo.DoCountdown then
         C_PartyInfo.DoCountdown(0)
-    elseif SlashCmdList and SlashCmdList.COUNTDOWN then
-        SlashCmdList.COUNTDOWN("0")
-    elseif SlashCmdList and SlashCmdList.PULL then
-        SlashCmdList.PULL("0")
     elseif RunMacroText then
+        RunMacroText("/break 0")
         RunMacroText("/pull 0")
     else
         Print(L.PULL_UNAVAILABLE)
@@ -878,7 +972,7 @@ local function SetPullSeconds(value)
 end
 
 local function SetBreakMinutes(value)
-    db.breakMinutes = ClampInt(value, 1, 1440, DEFAULT_DB.breakMinutes)
+    db.breakMinutes = ClampInt(value, 1, 60, DEFAULT_DB.breakMinutes)
     RefreshOptions()
 end
 
@@ -951,7 +1045,7 @@ local function CreateOptionsPanel()
     local breakLabel = CreateText(panelFrame, L.BREAK_MINUTES .. " (" .. L.MINUTES .. ")", "GameFontNormal")
     breakLabel:SetPoint("TOPLEFT", panelFrame.pullSecondsStepper, "BOTTOMLEFT", -4, -24)
 
-    panelFrame.breakMinutesStepper = CreateNumberStepper(panelFrame, 118, 1, 1440, 1, SetBreakMinutes)
+    panelFrame.breakMinutesStepper = CreateNumberStepper(panelFrame, 118, 1, 60, 1, SetBreakMinutes)
     panelFrame.breakMinutesStepper:SetPoint("TOPLEFT", breakLabel, "BOTTOMLEFT", 4, -6)
 
     panelFrame.breakPreview = CreateText(panelFrame, "", "GameFontHighlightSmall")
@@ -1134,6 +1228,14 @@ function PACT:RAID_ROSTER_UPDATE()
     UpdatePanelState()
 end
 
+function PACT:ROLE_POLL_BEGIN()
+    MarkRoleCheckPending()
+end
+
+function PACT:PLAYER_ROLES_ASSIGNED()
+    ClearRoleCheckPending()
+end
+
 function PACT:ADDON_LOADED(addonName)
     if addonName ~= ADDON_NAME then
         return
@@ -1152,6 +1254,8 @@ function PACT:ADDON_LOADED(addonName)
     self:RegisterEvent("PARTY_LEADER_CHANGED")
     self:RegisterEvent("RAID_ROSTER_UPDATE")
     self:RegisterEvent("PLAYER_REGEN_ENABLED")
+    self:RegisterEvent("ROLE_POLL_BEGIN")
+    self:RegisterEvent("PLAYER_ROLES_ASSIGNED")
 
     self:ApplyRaidManagerVisibility()
     Print(L.LOADED)
