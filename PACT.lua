@@ -27,7 +27,7 @@ local LOCALES = {
         LOCK_PANEL = "Lock mini panel",
         LOCK_PANEL_TIP = "Prevents moving the mini panel.",
         SHOW_CANCEL = "Show Cancel button",
-        SHOW_CANCEL_TIP = "Adds a compact button that sends /pull 0.",
+        SHOW_CANCEL_TIP = "Adds a compact button that cancels the active countdown.",
         PULL_SECONDS = "Pull time",
         BREAK_MINUTES = "Break time",
         SECONDS = "seconds",
@@ -35,13 +35,15 @@ local LOCALES = {
         RESET_POS_BUTTON = "Reset position",
         RESET_DEFAULTS_BUTTON = "Restore defaults",
         READY_TIP = "Starts a ready check.",
-        PULL_TIP = "Sends /pull %d.",
+        PULL_TIP = "Starts a %d second countdown.",
         TIME_LABEL = "Time: %s",
         ROLE_TIP = "Starts a role check.",
         BREAK_TIP = "Sends the configured break command.",
-        CANCEL_TIP = "Sends /pull 0.",
+        CANCEL_TIP = "Cancels the active countdown.",
         READY_UNAVAILABLE = "Ready check is not available in this game version.",
+        PULL_UNAVAILABLE = "Countdown is not available in this game version.",
         ROLE_UNAVAILABLE = "Role check is not available in this game version.",
+        BREAK_UNAVAILABLE = "Break countdown is not available in this game version.",
         BREAK_PREVIEW = "Break sends: %s",
     },
     ptBR = {
@@ -68,7 +70,7 @@ local LOCALES = {
         LOCK_PANEL = "Travar mini painel",
         LOCK_PANEL_TIP = "Impede mover o mini painel.",
         SHOW_CANCEL = "Mostrar botao Cancel",
-        SHOW_CANCEL_TIP = "Adiciona um botao compacto que envia /pull 0.",
+        SHOW_CANCEL_TIP = "Adiciona um botao compacto que cancela a contagem ativa.",
         PULL_SECONDS = "Tempo do pull",
         BREAK_MINUTES = "Tempo do break",
         SECONDS = "segundos",
@@ -76,13 +78,15 @@ local LOCALES = {
         RESET_POS_BUTTON = "Resetar posicao",
         RESET_DEFAULTS_BUTTON = "Restaurar padroes",
         READY_TIP = "Inicia um ready check.",
-        PULL_TIP = "Envia /pull %d.",
+        PULL_TIP = "Inicia uma contagem de %d segundos.",
         TIME_LABEL = "Tempo: %s",
         ROLE_TIP = "Inicia um role check.",
         BREAK_TIP = "Envia o comando de break configurado.",
-        CANCEL_TIP = "Envia /pull 0.",
+        CANCEL_TIP = "Cancela a contagem ativa.",
         READY_UNAVAILABLE = "Ready check nao esta disponivel nesta versao do jogo.",
+        PULL_UNAVAILABLE = "Countdown nao esta disponivel nesta versao do jogo.",
         ROLE_UNAVAILABLE = "Role check nao esta disponivel nesta versao do jogo.",
+        BREAK_UNAVAILABLE = "Countdown de break nao esta disponivel nesta versao do jogo.",
         BREAK_PREVIEW = "Break envia: %s",
     },
 }
@@ -117,7 +121,6 @@ local handle
 local optionsPanel
 local standaloneWindow
 local settingsCategory
-local pendingSecureUpdate
 local pendingLayoutUpdate
 local pendingRaidManagerUpdate
 
@@ -464,20 +467,64 @@ local function RunRoleCheck()
     end
 end
 
-local function UpdateSecureMacros()
-    if not buttons.pull or not buttons["break"] or not buttons.cancel then
+local function RunPullCountdown()
+    if not HasPermission() then
+        Print(L.NO_PERMISSION)
         return
     end
 
-    if InCombat() then
-        pendingSecureUpdate = true
+    local seconds = db.pullSeconds
+
+    if C_PartyInfo and C_PartyInfo.DoCountdown then
+        C_PartyInfo.DoCountdown(seconds)
+    elseif SlashCmdList and SlashCmdList.COUNTDOWN then
+        SlashCmdList.COUNTDOWN(tostring(seconds))
+    elseif SlashCmdList and SlashCmdList.PULL then
+        SlashCmdList.PULL(tostring(seconds))
+    elseif RunMacroText then
+        RunMacroText("/pull " .. tostring(seconds))
+    else
+        Print(L.PULL_UNAVAILABLE)
+    end
+end
+
+local function RunBreakCountdown()
+    if not HasPermission() then
+        Print(L.NO_PERMISSION)
         return
     end
 
-    pendingSecureUpdate = nil
-    buttons.pull:SetAttribute("macrotext1", "/pull " .. tostring(db.pullSeconds))
-    buttons["break"]:SetAttribute("macrotext1", ExpandBreakCommand())
-    buttons.cancel:SetAttribute("macrotext1", "/pull 0")
+    local command = ExpandBreakCommand()
+    local pullArgs = command:match("^/pull%s+(.+)$")
+
+    if pullArgs and SlashCmdList and SlashCmdList.PULL then
+        SlashCmdList.PULL(pullArgs)
+    elseif RunMacroText then
+        RunMacroText(command)
+    elseif C_PartyInfo and C_PartyInfo.DoCountdown then
+        C_PartyInfo.DoCountdown(db.breakMinutes * 60)
+    else
+        Print(L.BREAK_UNAVAILABLE)
+    end
+end
+
+local function RunCancelCountdown()
+    if not HasPermission() then
+        Print(L.NO_PERMISSION)
+        return
+    end
+
+    if C_PartyInfo and C_PartyInfo.DoCountdown then
+        C_PartyInfo.DoCountdown(0)
+    elseif SlashCmdList and SlashCmdList.COUNTDOWN then
+        SlashCmdList.COUNTDOWN("0")
+    elseif SlashCmdList and SlashCmdList.PULL then
+        SlashCmdList.PULL("0")
+    elseif RunMacroText then
+        RunMacroText("/pull 0")
+    else
+        Print(L.PULL_UNAVAILABLE)
+    end
 end
 
 local function UpdateLockState()
@@ -592,16 +639,18 @@ local function CreatePanel()
     end
 
     CreateIconButton("ready", "Interface\\RaidFrame\\ReadyCheck-Ready", false)
-    CreateIconButton("pull", "Interface\\Icons\\Ability_Warrior_Charge", true)
+    CreateIconButton("pull", "Interface\\Icons\\Ability_Warrior_Charge", false)
     CreateIconButton("role", "Interface\\Icons\\Ability_Warrior_DefensiveStance", false)
-    CreateIconButton("break", "Interface\\Icons\\INV_Misc_PocketWatch_01", true)
-    CreateIconButton("cancel", "Interface\\RaidFrame\\ReadyCheck-NotReady", true)
+    CreateIconButton("break", "Interface\\Icons\\INV_Misc_PocketWatch_01", false)
+    CreateIconButton("cancel", "Interface\\RaidFrame\\ReadyCheck-NotReady", false)
 
     buttons.ready:SetScript("OnClick", RunReadyCheck)
+    buttons.pull:SetScript("OnClick", RunPullCountdown)
     buttons.role:SetScript("OnClick", RunRoleCheck)
+    buttons["break"]:SetScript("OnClick", RunBreakCountdown)
+    buttons.cancel:SetScript("OnClick", RunCancelCountdown)
 
     LoadPosition()
-    UpdateSecureMacros()
     LayoutPanel()
 end
 
@@ -825,13 +874,11 @@ end
 
 local function SetPullSeconds(value)
     db.pullSeconds = ClampInt(value, 1, 3600, DEFAULT_DB.pullSeconds)
-    UpdateSecureMacros()
     RefreshOptions()
 end
 
 local function SetBreakMinutes(value)
     db.breakMinutes = ClampInt(value, 1, 1440, DEFAULT_DB.breakMinutes)
-    UpdateSecureMacros()
     RefreshOptions()
 end
 
@@ -847,7 +894,6 @@ local function ResetDefaults()
     PACTDB.position = oldPosition
     db = PACTDB
 
-    UpdateSecureMacros()
     LayoutPanel()
     PACT:ApplyRaidManagerVisibility()
     RefreshOptions()
@@ -1056,9 +1102,6 @@ local function RegisterSlashCommands()
 end
 
 function PACT:PLAYER_REGEN_ENABLED()
-    if pendingSecureUpdate then
-        UpdateSecureMacros()
-    end
     if pendingLayoutUpdate then
         LayoutPanel()
     end
