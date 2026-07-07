@@ -1,0 +1,16 @@
+package-as: PACT
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - .pkgmeta
+  - README.md
+  - CHANGELOG.md
+  - assets
+  - docs
+  - .github
+  - scripts
+  - .gitignore
+  - "*.zip"

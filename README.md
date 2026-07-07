@@ -1,8 +1,10 @@
 # PACT
 
+![PACT logo](assets/pact-logo-simple.png)
+
 **Pull And Check Tools** is a compact World of Warcraft Classic raid control panel.
 
-PACT adds a small draggable panel with buttons for:
+PACT keeps the common raid-leader controls close to your cursor without keeping the full Blizzard Raid Manager open. It adds a small draggable panel with buttons for:
 
 - Ready Check
 - Pull timer
@@ -10,7 +12,24 @@ PACT adds a small draggable panel with buttons for:
 - Break timer
 - Optional Cancel button
 
-It also includes options to hide the Blizzard Raid Manager, lock the mini panel, show the panel while solo for positioning, and configure pull/break times.
+It also includes options to hide the Blizzard Raid Manager, lock the mini panel, show the panel while solo for positioning, choose horizontal or vertical layout, reverse button order, scale the panel, and configure pull/break times.
+
+## CurseForge Summary
+
+Compact Ready Check, Pull, Role Check, Break, and Cancel controls for WoW Classic raid leaders.
+
+## Features
+
+- Compact draggable raid control panel.
+- Ready Check, Pull timer, Role Check, Break timer, and optional Cancel button.
+- Break timer support using BigWigs-style `/break` behavior when available.
+- Pull and Break controls wait for an active Role Check to finish.
+- Horizontal or vertical layout.
+- Optional reverse button order.
+- Panel scale control from the addon options.
+- Solo display mode for positioning the panel outside a group or raid.
+- Option to hide the Blizzard Raid Manager.
+- Per-character saved settings.
 
 ## Compatibility
 
@@ -33,6 +52,19 @@ Current interface version:
 ```
 
 The configuration panel is also available from the in-game addon options.
+
+## Options
+
+- Hide Blizzard Raid Manager
+- Show mini panel while solo
+- Lock mini panel
+- Show Cancel button
+- Vertical layout
+- Reverse button order
+- Hide handle when locked
+- Pull time in seconds
+- Break time in minutes
+- Panel scale percent
 
 ## Installation
 
@@ -67,3 +99,7 @@ PACT supports:
 - Russian (`ruRU`)
 - Simplified Chinese (`zhCN`)
 - Traditional Chinese (`zhTW`)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
