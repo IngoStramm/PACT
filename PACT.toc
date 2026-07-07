@@ -1,9 +1,9 @@
-## Interface: 20505
+## Interface: 20506
 ## Title: PACT
 ## Notes: Pull And Check Tools for compact raid controls.
 ## Notes-ptBR: Ferramentas de Pull e Checks para controles compactos de raid.
 ## Author: Codex
-## Version: 1.0.4
+## Version: 1.0.5
 ## X-Curse-Project-ID: 1600851
 ## SavedVariablesPerCharacter: PACTDB
 

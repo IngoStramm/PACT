@@ -38,7 +38,7 @@ PACT is built for WoW Classic Anniversary / TBC Classic Anniversary.
 Current interface version:
 
 ```text
-20505
+20506
 ```
 
 ## Commands
