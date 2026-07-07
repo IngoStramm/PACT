@@ -56,5 +56,14 @@ Do not use GitHub's green **Code > Download ZIP** button for installation. That 
 
 PACT supports:
 
-- English (`enUS`, default)
+- English (`enUS`, `enGB`, default)
 - Brazilian Portuguese (`ptBR`)
+- German (`deDE`)
+- Spanish, Spain (`esES`)
+- Spanish, Mexico (`esMX`)
+- French (`frFR`)
+- Italian (`itIT`)
+- Korean (`koKR`)
+- Russian (`ruRU`)
+- Simplified Chinese (`zhCN`)
+- Traditional Chinese (`zhTW`)
