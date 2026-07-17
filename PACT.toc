@@ -3,7 +3,7 @@
 ## Notes: Pull And Check Tools for compact raid controls.
 ## Notes-ptBR: Ferramentas de Pull e Checks para controles compactos de raid.
 ## Author: Codex
-## Version: 1.0.5
+## Version: 1.0.6
 ## X-Curse-Project-ID: 1600851
 ## SavedVariablesPerCharacter: PACTDB
 

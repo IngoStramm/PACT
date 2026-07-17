@@ -12,7 +12,7 @@ PACT keeps the common raid-leader controls close to your cursor without keeping 
 - Break timer
 - Optional Cancel button
 
-It also includes options to hide the Blizzard Raid Manager, lock the mini panel, show the panel while solo for positioning, choose horizontal or vertical layout, reverse button order, scale the panel, and configure pull/break times.
+It also includes options to hide Blizzard Raid Manager controls without hiding party or raid frames, lock the mini panel, show the panel while solo for positioning, choose horizontal or vertical layout, reverse button order, scale the panel, and configure pull/break times.
 
 ## CurseForge Summary
 
@@ -28,7 +28,7 @@ Compact Ready Check, Pull, Role Check, Break, and Cancel controls for WoW Classi
 - Optional reverse button order.
 - Panel scale control from the addon options.
 - Solo display mode for positioning the panel outside a group or raid.
-- Option to hide the Blizzard Raid Manager.
+- Option to hide Blizzard Raid Manager controls without hiding party or raid frames.
 - Per-character saved settings.
 
 ## Compatibility
@@ -55,7 +55,7 @@ The configuration panel is also available from the in-game addon options.
 
 ## Options
 
-- Hide Blizzard Raid Manager
+- Hide Blizzard Raid Manager controls without hiding party or raid frames
 - Show mini panel while solo
 - Lock mini panel
 - Show Cancel button

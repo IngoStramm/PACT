@@ -22,7 +22,7 @@ local LOCALES = {
         OPTIONS_TITLE = "PACT",
         OPTIONS_DESC = "Pull And Check Tools for compact raid controls.",
         HIDE_RAID_MANAGER = "Hide Blizzard Raid Manager",
-        HIDE_RAID_MANAGER_TIP = "Hides the Blizzard raid manager panel during this session.",
+        HIDE_RAID_MANAGER_TIP = "Hides Blizzard's raid manager controls during this session. Party and raid frames remain visible.",
         SHOW_PANEL = "Show mini panel while solo",
         SHOW_PANEL_TIP = "Shows the mini panel while you are solo, so you can position and configure it.",
         LOCK_PANEL = "Lock mini panel",
@@ -72,7 +72,7 @@ local LOCALES = {
         OPTIONS_TITLE = "PACT",
         OPTIONS_DESC = "Ferramentas de Pull e Checks para controles compactos de raid.",
         HIDE_RAID_MANAGER = "Esconder Raid Manager da Blizzard",
-        HIDE_RAID_MANAGER_TIP = "Esconde o painel lateral de gerenciamento de raid durante esta sessao.",
+        HIDE_RAID_MANAGER_TIP = "Esconde os controles do Raid Manager da Blizzard durante esta sessao. Os frames de grupo e raid continuam visiveis.",
         SHOW_PANEL = "Exibir mini painel fora de grupo/raid",
         SHOW_PANEL_TIP = "Mostra o mini painel enquanto voce esta solo, para posicionar e configurar.",
         LOCK_PANEL = "Travar mini painel",
@@ -119,7 +119,7 @@ local LOCALES = {
         DRAG_HANDLE = "Zum Verschieben ziehen",
         OPTIONS_DESC = "Pull And Check Tools fuer kompakte Schlachtzugsteuerung.",
         HIDE_RAID_MANAGER = "Blizzard-Raidmanager ausblenden",
-        HIDE_RAID_MANAGER_TIP = "Blendet den Blizzard-Raidmanager in dieser Sitzung aus.",
+        HIDE_RAID_MANAGER_TIP = "Blendet die Bedienelemente des Blizzard-Raidmanagers in dieser Sitzung aus. Gruppen- und Schlachtzugsfenster bleiben sichtbar.",
         SHOW_PANEL = "Minifenster solo anzeigen",
         SHOW_PANEL_TIP = "Zeigt das Minifenster solo an, damit du es positionieren kannst.",
         LOCK_PANEL = "Minifenster sperren",
@@ -166,7 +166,7 @@ local LOCALES = {
         DRAG_HANDLE = "Arrastra para mover",
         OPTIONS_DESC = "Pull And Check Tools para controles compactos de banda.",
         HIDE_RAID_MANAGER = "Ocultar gestor de banda de Blizzard",
-        HIDE_RAID_MANAGER_TIP = "Oculta el panel de gestion de banda de Blizzard durante esta sesion.",
+        HIDE_RAID_MANAGER_TIP = "Oculta los controles del Raid Manager de Blizzard durante esta sesion. Los marcos de grupo y banda permanecen visibles.",
         SHOW_PANEL = "Mostrar minipanel estando solo",
         SHOW_PANEL_TIP = "Muestra el minipanel estando solo para poder colocarlo.",
         LOCK_PANEL = "Bloquear minipanel",
@@ -213,7 +213,7 @@ local LOCALES = {
         DRAG_HANDLE = "Arrastra para mover",
         OPTIONS_DESC = "Pull And Check Tools para controles compactos de raid.",
         HIDE_RAID_MANAGER = "Ocultar Raid Manager de Blizzard",
-        HIDE_RAID_MANAGER_TIP = "Oculta el panel de gestion de raid de Blizzard durante esta sesion.",
+        HIDE_RAID_MANAGER_TIP = "Oculta los controles del Raid Manager de Blizzard durante esta sesion. Los marcos de grupo y banda permanecen visibles.",
         SHOW_PANEL = "Mostrar minipanel estando solo",
         SHOW_PANEL_TIP = "Muestra el minipanel estando solo para poder posicionarlo.",
         LOCK_PANEL = "Bloquear minipanel",
@@ -260,7 +260,7 @@ local LOCALES = {
         DRAG_HANDLE = "Faire glisser pour deplacer",
         OPTIONS_DESC = "Pull And Check Tools pour controles de raid compacts.",
         HIDE_RAID_MANAGER = "Masquer le gestionnaire de raid Blizzard",
-        HIDE_RAID_MANAGER_TIP = "Masque le panneau de gestion de raid Blizzard pendant cette session.",
+        HIDE_RAID_MANAGER_TIP = "Masque les commandes du gestionnaire de raid Blizzard pendant cette session. Les cadres de groupe et de raid restent visibles.",
         SHOW_PANEL = "Afficher le mini-panneau en solo",
         SHOW_PANEL_TIP = "Affiche le mini-panneau en solo pour le positionner.",
         LOCK_PANEL = "Verrouiller le mini-panneau",
@@ -307,7 +307,7 @@ local LOCALES = {
         DRAG_HANDLE = "Trascina per spostare",
         OPTIONS_DESC = "Pull And Check Tools per controlli raid compatti.",
         HIDE_RAID_MANAGER = "Nascondi Raid Manager Blizzard",
-        HIDE_RAID_MANAGER_TIP = "Nasconde il pannello di gestione raid Blizzard durante questa sessione.",
+        HIDE_RAID_MANAGER_TIP = "Nasconde i controlli del Raid Manager Blizzard durante questa sessione. I riquadri di gruppo e raid restano visibili.",
         SHOW_PANEL = "Mostra mini pannello da solo",
         SHOW_PANEL_TIP = "Mostra il mini pannello quando sei solo, per posizionarlo.",
         LOCK_PANEL = "Blocca mini pannello",
@@ -354,7 +354,7 @@ local LOCALES = {
         DRAG_HANDLE = "드래그하여 이동",
         OPTIONS_DESC = "간단한 공격대 제어용 Pull And Check Tools.",
         HIDE_RAID_MANAGER = "Blizzard 공격대 관리자 숨기기",
-        HIDE_RAID_MANAGER_TIP = "이번 세션 동안 Blizzard 공격대 관리자 패널을 숨깁니다.",
+        HIDE_RAID_MANAGER_TIP = "이번 세션 동안 Blizzard 공격대 관리자 조작부를 숨깁니다. 파티 및 공격대 창은 계속 표시됩니다.",
         SHOW_PANEL = "솔로일 때 미니 패널 표시",
         SHOW_PANEL_TIP = "솔로일 때 위치 조정을 위해 미니 패널을 표시합니다.",
         LOCK_PANEL = "미니 패널 잠금",
@@ -401,7 +401,7 @@ local LOCALES = {
         DRAG_HANDLE = "Перетащите для перемещения",
         OPTIONS_DESC = "Pull And Check Tools для компактного управления рейдом.",
         HIDE_RAID_MANAGER = "Скрыть менеджер рейда Blizzard",
-        HIDE_RAID_MANAGER_TIP = "Скрывает панель управления рейдом Blizzard на эту сессию.",
+        HIDE_RAID_MANAGER_TIP = "Скрывает элементы управления рейд-менеджером Blizzard на эту сессию. Окна группы и рейда остаются видимыми.",
         SHOW_PANEL = "Показывать мини-панель соло",
         SHOW_PANEL_TIP = "Показывает мини-панель соло, чтобы ее можно было разместить.",
         LOCK_PANEL = "Заблокировать мини-панель",
@@ -448,7 +448,7 @@ local LOCALES = {
         DRAG_HANDLE = "拖动移动",
         OPTIONS_DESC = "用于紧凑团队控制的 Pull And Check Tools。",
         HIDE_RAID_MANAGER = "隐藏 Blizzard 团队管理器",
-        HIDE_RAID_MANAGER_TIP = "在本次会话中隐藏 Blizzard 团队管理面板。",
+        HIDE_RAID_MANAGER_TIP = "在本次会话中隐藏 Blizzard 团队管理器控制项。小队和团队框体仍会显示。",
         SHOW_PANEL = "单人时显示迷你面板",
         SHOW_PANEL_TIP = "单人时显示迷你面板，方便调整位置。",
         LOCK_PANEL = "锁定迷你面板",
@@ -495,7 +495,7 @@ local LOCALES = {
         DRAG_HANDLE = "拖曳以移動",
         OPTIONS_DESC = "用於精簡團隊控制的 Pull And Check Tools。",
         HIDE_RAID_MANAGER = "隱藏 Blizzard 團隊管理器",
-        HIDE_RAID_MANAGER_TIP = "在本次遊戲階段隱藏 Blizzard 團隊管理面板。",
+        HIDE_RAID_MANAGER_TIP = "在本次遊戲階段隱藏 Blizzard 團隊管理員控制項。隊伍和團隊框架仍會顯示。",
         SHOW_PANEL = "單人時顯示迷你面板",
         SHOW_PANEL_TIP = "單人時顯示迷你面板，方便調整位置。",
         LOCK_PANEL = "鎖定迷你面板",
@@ -583,13 +583,10 @@ local roleCheckToken = 0
 local buttons = {}
 local buttonOrder = { "ready", "pull", "role", "break", "cancel" }
 
-local hiddenParent = CreateFrame("Frame", nil, UIParent)
-hiddenParent:Hide()
-
-local raidManagerState = {}
-local raidManagerToggleState = {}
-local raidManagerHooked
-local raidManagerUpdateHooked
+local raidManagerHiddenByPACT
+local raidManagerRestoring
+local raidContainerDetached
+local raidContainerOriginalParent
 
 local function CopyDefaults(source)
     local copy = {}
@@ -1249,98 +1246,60 @@ local function CreatePanel()
     LayoutPanel()
 end
 
-local function SaveFrameState(frame, state)
-    if not frame or state.saved then
+local function HookRaidManager(manager)
+    if not manager or manager.PACTHideManagerHooked then
         return
     end
 
-    state.parent = frame:GetParent()
-    state.shown = frame:IsShown()
-    state.points = {}
-
-    for i = 1, frame:GetNumPoints() do
-        local point, relativeTo, relativePoint, x, y = frame:GetPoint(i)
-        state.points[i] = { point, relativeTo, relativePoint, x, y }
-    end
-
-    state.saved = true
-end
-
-local function RestoreFrameState(frame, state)
-    if not frame or not state.saved then
-        return
-    end
-
-    frame:SetParent(state.parent or UIParent)
-    frame:ClearAllPoints()
-
-    if state.points and #state.points > 0 then
-        for _, point in ipairs(state.points) do
-            frame:SetPoint(point[1], point[2] or UIParent, point[3], point[4], point[5])
+    manager:HookScript("OnShow", function(self)
+        if db and db.hideRaidManager and not raidManagerRestoring then
+            if InCombat() then
+                pendingRaidManagerUpdate = true
+                return
+            end
+            self:Hide()
+            raidManagerHiddenByPACT = true
         end
-    end
-
-    if state.shown then
-        frame:Show()
-    else
-        frame:Hide()
-    end
+    end)
+    manager.PACTHideManagerHooked = true
 end
 
-local function HideBlizzardFrame(frame, state)
-    if not frame then
+local function DetachRaidContainer(manager)
+    local container = manager and (manager.container or _G.CompactRaidFrameContainer)
+    if not container or container:GetParent() ~= manager then
         return
     end
 
-    SaveFrameState(frame, state)
-    frame:SetParent(hiddenParent)
-    frame:Hide()
+    raidContainerOriginalParent = manager
+    container:SetParent(UIParent)
+    raidContainerDetached = true
 end
 
-local function HookRaidManager()
+local function RestoreRaidManagerControls()
+    if not raidManagerHiddenByPACT and not raidContainerDetached then
+        return
+    end
+
     local manager = _G.CompactRaidFrameManager
-    local toggle = _G.CompactRaidFrameManagerDisplayFrameHiddenModeToggle
-
-    if manager and not manager.PACTHooked then
-        manager:HookScript("OnShow", function(self)
-            if db and db.hideRaidManager then
-                if InCombat() then
-                    pendingRaidManagerUpdate = true
-                    return
-                end
-                self:SetParent(hiddenParent)
-                self:Hide()
-            end
-        end)
-        manager.PACTHooked = true
+    if not manager then
+        return
     end
 
-    if toggle and not toggle.PACTHooked then
-        toggle:HookScript("OnShow", function(self)
-            if db and db.hideRaidManager then
-                if InCombat() then
-                    pendingRaidManagerUpdate = true
-                    return
-                end
-                self:SetParent(hiddenParent)
-                self:Hide()
-            end
-        end)
-        toggle.PACTHooked = true
+    raidManagerRestoring = true
+    local container = manager.container or _G.CompactRaidFrameContainer
+    if raidContainerDetached and container then
+        container:SetParent(raidContainerOriginalParent or manager)
     end
-
-    if not raidManagerUpdateHooked and type(CompactRaidFrameManager_UpdateOptionsFlowContainer) == "function" then
-        hooksecurefunc("CompactRaidFrameManager_UpdateOptionsFlowContainer", function()
-            if db and db.hideRaidManager and C_Timer then
-                C_Timer.After(0, function()
-                    PACT:ApplyRaidManagerVisibility()
-                end)
-            end
-        end)
-        raidManagerUpdateHooked = true
+    if type(_G.CompactRaidFrameManager_UpdateShown) == "function" then
+        _G.CompactRaidFrameManager_UpdateShown(manager)
+    else
+        manager:Show()
     end
+    raidManagerRestoring = nil
 
-    raidManagerHooked = true
+    raidManagerHiddenByPACT = nil
+    raidContainerDetached = nil
+    raidContainerOriginalParent = nil
 end
 
 function PACT:ApplyRaidManagerVisibility()
@@ -1354,18 +1313,56 @@ function PACT:ApplyRaidManagerVisibility()
     end
 
     pendingRaidManagerUpdate = nil
-    HookRaidManager()
-
-    local manager = _G.CompactRaidFrameManager
-    local toggle = _G.CompactRaidFrameManagerDisplayFrameHiddenModeToggle
 
     if db.hideRaidManager then
-        HideBlizzardFrame(manager, raidManagerState)
-        HideBlizzardFrame(toggle, raidManagerToggleState)
-    else
-        RestoreFrameState(manager, raidManagerState)
-        RestoreFrameState(toggle, raidManagerToggleState)
+        local manager = _G.CompactRaidFrameManager
+        if manager then
+            HookRaidManager(manager)
+            DetachRaidContainer(manager)
+            manager:Hide()
+            raidManagerHiddenByPACT = true
+        end
+    elseif raidManagerHiddenByPACT or raidContainerDetached then
+        RestoreRaidManagerControls()
     end
+end
+
+local function PrintRaidManagerFrameState(label, frame)
+    if not frame then
+        Print("debug " .. label .. "=nil")
+        return
+    end
+
+    local parent = frame:GetParent()
+    local parentName = parent and parent.GetName and parent:GetName() or nil
+    Print(string.format(
+        "debug %s name=%s shown=%s visible=%s parent=%s",
+        label,
+        tostring(frame:GetName()),
+        tostring(frame:IsShown()),
+        tostring(frame:IsVisible()),
+        tostring(parentName)
+    ))
+end
+
+function PACT:DebugRaidManager()
+    self:ApplyRaidManagerVisibility()
+
+    local manager = _G.CompactRaidFrameManager
+    Print(string.format(
+        "debug option=%s combat=%s applied=%s pending=%s collapsed=%s",
+        tostring(db and db.hideRaidManager),
+        tostring(InCombat() and true or false),
+        tostring(raidManagerHiddenByPACT and true or false),
+        tostring(pendingRaidManagerUpdate and true or false),
+        tostring(manager and manager.collapsed)
+    ))
+    PrintRaidManagerFrameState("manager", manager)
+    PrintRaidManagerFrameState("display", manager and manager.displayFrame)
+    PrintRaidManagerFrameState("toggleForward", manager and manager.toggleButtonForward)
+    PrintRaidManagerFrameState("toggleBack", manager and manager.toggleButtonBack)
+    PrintRaidManagerFrameState("raidContainer", manager and manager.container or _G.CompactRaidFrameContainer)
+    PrintRaidManagerFrameState("partyFrame", _G.CompactPartyFrame)
 end
 
 local function CreateText(parent, text, template)
@@ -1717,6 +1714,8 @@ local function RegisterSlashCommands()
             ResetPosition()
         elseif command == "blizzard" then
             PACT:OpenInterfaceOptions()
+        elseif command == "debug" or command == "debug raid" then
+            PACT:DebugRaidManager()
         elseif command == "help" then
             Print(L.HELP)
         else
@@ -1733,6 +1732,10 @@ function PACT:PLAYER_REGEN_ENABLED()
         self:ApplyRaidManagerVisibility()
     end
     UpdatePanelState()
+end
+
+function PACT:PLAYER_LOGOUT()
+    RestoreRaidManagerControls()
 end
 
 function PACT:PLAYER_ENTERING_WORLD()
@@ -1767,11 +1770,18 @@ function PACT:PLAYER_ROLES_ASSIGNED()
 end
 
 function PACT:ADDON_LOADED(addonName)
-    if addonName ~= ADDON_NAME then
+    if addonName == "Blizzard_CompactRaidFrames" then
+        if db and db.hideRaidManager then
+            C_Timer.After(0, function()
+                PACT:ApplyRaidManagerVisibility()
+            end)
+        end
         return
     end
 
-    self:UnregisterEvent("ADDON_LOADED")
+    if addonName ~= ADDON_NAME then
+        return
+    end
 
     EnsureDb()
     CreatePanel()
@@ -1784,6 +1794,7 @@ function PACT:ADDON_LOADED(addonName)
     self:RegisterEvent("PARTY_LEADER_CHANGED")
     self:RegisterEvent("RAID_ROSTER_UPDATE")
     self:RegisterEvent("PLAYER_REGEN_ENABLED")
+    self:RegisterEvent("PLAYER_LOGOUT")
     self:RegisterEvent("ROLE_POLL_BEGIN")
     self:RegisterEvent("PLAYER_ROLES_ASSIGNED")
 

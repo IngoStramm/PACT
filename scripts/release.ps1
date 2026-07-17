@@ -38,7 +38,8 @@ foreach ($line in $ChangelogLines) {
 git -C $repoRoot diff --check
 
 if ($Publish) {
-    git -C $repoRoot add PACT.toc CHANGELOG.md
+    git -C $repoRoot add PACT.lua PACT.toc CHANGELOG.md README.md .pkgmeta `
+        docs/curseforge-description.md .github/workflows/release.yml scripts/release.ps1
     git -C $repoRoot commit -m "Release $Version"
     git -C $repoRoot tag "v$Version"
     git -C $repoRoot push origin main

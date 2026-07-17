@@ -14,7 +14,7 @@ PACT keeps common raid-leader controls close to your cursor without keeping the 
 - Optional reverse button order.
 - Configurable panel scale.
 - Solo display mode for positioning the panel outside a group or raid.
-- Option to hide the Blizzard Raid Manager.
+- Option to hide Blizzard Raid Manager controls without hiding party or raid frames.
 - Per-character saved settings.
 
 ## Commands
